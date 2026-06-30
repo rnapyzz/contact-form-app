@@ -37,4 +37,20 @@ class AdminController extends Controller
 
         return view('admin.index', compact('categories', 'tags', 'contacts'));
     }
+
+    public function show(Contact $contact)
+    {
+        $contact->load(['category', 'tags']);
+
+        return view('admin.show', compact('contact'));
+    }
+
+    public function destroy(Contact $contact)
+    {
+        $contact->tags()->detach();
+
+        $contact->delete();
+
+        return redirect('/admin');
+    }
 }
