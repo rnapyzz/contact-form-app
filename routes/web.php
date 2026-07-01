@@ -18,15 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/admin/contacts/{contact}', [AdminController::class, 'show'])->name('admin.contacts.show');
+    Route::delete('/admin/contacts/{contact}', [AdminController::class, 'destroy'])->name('admin.contacts.destroy');
+    Route::post('/admin/tags', [TagController::class, 'store'])->name('admin.tags.store');
+    Route::get('/admin/tags/{tag}/edit', [TagController::class, 'edit'])->name('admin.tags.edit');
+    Route::put('/admin/tags/{tag}', [TagController::class, 'update'])->name('admin.tags.update');
+    Route::delete('/admin/tags/{tag}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
 });
 
 Route::get('/', [ContactController::class, 'index']);
 Route::post('/contacts', [ContactController::class, 'store'])->name('contact.store');
 Route::post('/contacts/confirm', [ContactController::class, 'confirm'])->name('contact.confirm');
 Route::get('/thanks', [ContactController::class, 'thanks'])->name('contact.thanks');
-Route::get('admin/contacts/{contact}', [AdminController::class, 'show'])->name('admin.contacts.show');
-Route::delete('admin/contacts/{contact}', [AdminController::class, 'destroy'])->name('admin.contacts.destroy');
-Route::post('/admin/tags', [TagController::class, 'store'])->name('admin.tags.store');
-Route::get('/admin/tags/{tag}/edit', [TagController::class, 'edit'])->name('admin.tags.edit');
-Route::put('/admin/tags/{tag}', [TagController::class, 'update'])->name('admin.tags.update');
-Route::delete('/admin/tags/{tag}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
