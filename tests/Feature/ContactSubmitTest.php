@@ -65,7 +65,6 @@ class ContactSubmitTest extends TestCase
         });
     }
 
-
     /** @test */
     public function バリデーションエラー時は元の入力画面にリダイレクトされる(): void
     {
