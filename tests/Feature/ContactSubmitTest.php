@@ -37,6 +37,36 @@ class ContactSubmitTest extends TestCase
     }
 
     /** @test */
+    public function タグの設定がある場合でもバリデーションが通り確認ページが表示される(): void
+    {
+        // Arrange
+        $category = Category::factory()->create();
+        $tags = Tag::factory()->count(2)->create();
+        $tagIds = $tags->pluck('id')->toArray();
+        $data = [
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'gender' => 1,
+            'email' => 'test@example.com',
+            'tel' => '00012345678',
+            'address' => 'Tokyo',
+            'category_id' => $category->id,
+            'detail' => '詳細内容',
+            'tag_ids' => $tagIds,
+        ];
+
+        // Act
+        $response = $this->post('/contacts/confirm', $data);
+
+        // Assert
+        $response->assertStatus(200);
+        $response->assertViewHas('tags', function ($tag) use ($tags) {
+            return $tag->count() === 2 && $tag->contains('id', $tags[0]->id);
+        });
+    }
+
+
+    /** @test */
     public function バリデーションエラー時は元の入力画面にリダイレクトされる(): void
     {
         // Act
