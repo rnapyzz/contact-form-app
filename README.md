@@ -77,25 +77,51 @@ cp .env.example .env
 ```
 ※ テストのカバレッジを計測したい場合は、`.env`の`XDEBUG_MODE`を`coverage`に変更して実行ください。
 
-3. Dockerコンテナの起動
+3. Laravel Sailのインストール
+```
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    -e COMPOSER_CACHE_DIR=/tmp/composer_cache \
+    laravelsail/php82-composer:latest \
+    composer require laravel/sail --dev
+```
+
+4. Sailの設定ファイルをパブリッシュ
+```
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    -e COMPOSER_CACHE_DIR=/tmp/composer_cache \
+    laravelsail/php82-composer:latest \
+    php artisan sail:install --with=mysql
+```
+
+5. Dockerコンテナの起動
 ```
 ./vendor/bin/sail up -d
 ```
 
-4. フロントエンドの起動
+6. フロントエンドの起動
 ```
+./vendor/bin/sail npm install
 ./vendor/bin/sail npm run dev
 ```
 
-5. アプリケーションキーの生成
+7. アプリケーションキーの生成
 ```
 ./vendor/bin/sail artisan key:generate
 ```
 
-6. マイグレーションの実行
+8. マイグレーションの実行（初期データの投入）
 ```
 ./vendor/bin/sail artisan migrate --seed
 ```
+既存のデータベースをリセットして再マイグレーションしたい場合は、<br>
+`./vendor/bin/sail artisan migrate:fresh --seed` で実行してください。　
+
 
 ## テストの実行方法
 * 全テストの実行
@@ -134,4 +160,4 @@ cp .env.example .env
 管理者向け　: `http://localhost/admin` <br>
 
 ## 作成者
-[ Kosei ]
+Kosei.T
