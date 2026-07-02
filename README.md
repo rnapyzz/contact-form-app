@@ -125,6 +125,7 @@ cp .env.example .env
 | POST   | `/api/v1/contacts`           | お問い合わせ新規作成                     | 不要 |
 | PUT    | `/api/v1/contacts/{contact}` | お問い合わせ詳細更新                     | 不要 |
 | DELETE | `/api/v1/contacts/{contact}` | お問い合わせ詳細削除                     | 不要 |
+
 [注意事項] すべてのリクエストにおいて、ヘッダーに `Accept: application/json` を含めてください。
 
 ## 開発環境URL
